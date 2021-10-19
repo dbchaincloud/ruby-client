@@ -2,6 +2,10 @@ require "bitcoin"
 
 module DbchainRubyClient
   class Key
+    def self.generate_mnemonic(strength_bits = 128)
+      Bitcoin::Trezor::Mnemonic.generate(strength_bits)
+    end
+
     def self.mnemonic_to_master_key(mnemonic)
       seed = Bitcoin::Trezor::Mnemonic.to_seed(mnemonic)
       Bitcoin::ExtKey.generate_master(seed.htb)
