@@ -1,6 +1,6 @@
 require "bitcoin"
 
-module DbchainRubyClient
+module DbchainClient
   class Key
     def self.generate_mnemonic(strength_bits = 128)
       Bitcoin::Trezor::Mnemonic.generate(strength_bits)
