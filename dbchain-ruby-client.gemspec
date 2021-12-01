@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
-  s.name        = 'dbchain-ruby-client'
-  s.version     = '0.0.0'
+  s.name        = 'dbchain_client'
+  s.version     = '0.0.1'
   s.summary     = "ruby client of dbchain."
   s.description = "This is the ruby client of dbchain."
   s.authors     = ["Ethan Zhang"]
