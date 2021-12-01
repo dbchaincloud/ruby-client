@@ -1,5 +1,5 @@
 require 'minitest/autorun'
-require_relative '../lib/dbchain_ruby_client'
+require_relative '../lib/dbchain_client'
 
 class DbchainRubyClientTest < Minitest::Test
   def test_generate_master
