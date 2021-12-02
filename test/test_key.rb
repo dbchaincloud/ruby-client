@@ -1,7 +1,7 @@
 require 'minitest/autorun'
 require_relative '../lib/dbchain_client'
 
-class DbchainClientTest < Minitest::Test
+class KeyTest < Minitest::Test
   def test_generate_master
     mnemonic = "wood word work wood word work wood word work wood word work"
     master_key = DbchainClient::Key.mnemonic_to_master_key(mnemonic)
