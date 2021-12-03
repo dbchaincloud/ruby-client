@@ -1,0 +1,27 @@
+GEM
+  remote: https://rubygems.org/
+  specs:
+    bitcoin-ruby (0.0.20)
+      eventmachine
+      ffi
+      scrypt
+    bitcoin-secp256k1 (0.5.2)
+      ffi (>= 1.9.25)
+    eventmachine (1.2.7)
+    ffi (1.15.4)
+    ffi-compiler (1.0.1)
+      ffi (>= 1.0.0)
+      rake
+    rake (13.0.6)
+    scrypt (3.0.7)
+      ffi-compiler (>= 1.0, < 2.0)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  bitcoin-ruby (~> 0.0.20)
+  bitcoin-secp256k1 (~> 0.5.2)
+
+BUNDLED WITH
+   2.1.4
