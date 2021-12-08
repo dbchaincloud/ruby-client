@@ -1,55 +1,50 @@
-require "bitcoin"
+#require "bitcoin"
 require "secp256k1"
 
 module DbchainClient
-  class Key
+  class PublicKey
+    def initialize(pub_key) # hex or raw public key
+      if pub_key.instance_of?(Secp256k1::PublicKey)
+        @public_key = pub_key
+      else
+        raw_pub_key = Secp256k1::Utils.decode_hex(pub_key)
+        @public_key = Secp256k1::PublicKey.new(pubkey: raw_pub_key, raw: true)
+      end
+    end
+
+    def public_key_hex
+      @public_key.serialize.unpack('H*')[0]
+    end
+
+    def to_s
+      public_key_hex
+    end
+
+    def address
+      @address ||= Mnemonics.public_key_to_address(public_key_hex)
+    end
+
+    def verify(message, signature)
+      compact_sig = Secp256k1::Utils.decode_hex(signature)
+      raw_sig = @public_key.ecdsa_deserialize_compact(compact_sig)
+      @public_key.ecdsa_verify(message, raw_sig)
+    end
+  end
+
+  class PrivateKey
     def initialize(private_key_hex)
       raw_key = Secp256k1::Utils.decode_hex(private_key_hex)
       @private_key = Secp256k1::PrivateKey.new(privkey: raw_key)
     end
 
     def public_key
-      @public_key ||= @private_key.pubkey
-    end
-
-    def public_key_hex
-      if defined? @public_key_hex
-        return @public_key_hex
-      end
-
-      serialized_pub_key = public_key.serialize
-      @public_key_hex = serialized_pub_key.unpack('H*')[0]
-    end
-
-    def address
-      @address ||= Key.public_key_to_address(public_key_hex)
+      @public_key ||= PublicKey.new(@private_key.pubkey)
     end
 
     def sign(message)
-      @private_key.ecdsa_sign_recoverable(message) # signture is recoverable one
-    end
-
-    class << self
-      def generate_mnemonic(strength_bits = 128)
-        Bitcoin::Trezor::Mnemonic.generate(strength_bits)
-      end
-
-      def mnemonic_to_master_key(mnemonic)
-        seed = Bitcoin::Trezor::Mnemonic.to_seed(mnemonic)
-        Bitcoin::ExtKey.generate_master(seed.htb)
-      end
-
-      def master_key_to_cosmos_key_pair(master_key)
-        # m/44'/118'/0'/0/0"
-        key = master_key.derive(2**31 + 44).derive(2**31 + 118).derive(2**31).derive(0 ).derive(0)
-        [key.priv, key.pub]
-      end
-
-      def public_key_to_address(pub_key)
-        hash160 = Bitcoin.hash160(pub_key)
-        words = Bitcoin::Bech32.convert_bits(hash160.htb.unpack("C*"), from_bits: 8, to_bits: 5, pad: true)
-        Bitcoin::Bech32.encode("cosmos", words)
-      end
+      raw_sig = @private_key.ecdsa_sign(message)
+      compact_sig = @private_key.ecdsa_serialize_compact(raw_sig)
+      Secp256k1::Utils.encode_hex(compact_sig)
     end
   end
 end
