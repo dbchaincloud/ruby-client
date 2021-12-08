@@ -1,17 +1,6 @@
 require "bitcoin"
 require "secp256k1"
 
-module MyExtension
-  def get_public_key
-    if pubkey.nil?
-      update_public_key
-    end
-    pubkey
-  end
-end
-
-Secp256k1::PrivateKey.include MyExtension
-
 module DbchainClient
   class Key
     def initialize(private_key_hex)
@@ -20,11 +9,24 @@ module DbchainClient
     end
 
     def public_key
-      @public_key ||= @private_key.get_public_key
+      @public_key ||= @private_key.pubkey
+    end
+
+    def public_key_hex
+      if defined? @public_key_hex
+        return @public_key_hex
+      end
+
+      serialized_pub_key = public_key.serialize
+      @public_key_hex = serialized_pub_key.unpack('H*')[0]
     end
 
     def address
-      @address ||= Key.public_key_to_address(public_key)
+      @address ||= Key.public_key_to_address(public_key_hex)
+    end
+
+    def sign(message)
+      @private_key.ecdsa_sign_recoverable(message) # signture is recoverable one
     end
 
     class << self

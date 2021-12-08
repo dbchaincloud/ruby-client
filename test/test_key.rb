@@ -12,13 +12,16 @@ class KeyTest < Minitest::Test
       "f719e7aa6d990f5f101ddbe6a1a60a71111e80efa60b93368bbb3a4b0fde7e43"
   end
 
-  def test_address_generation
+  def test_public_key_and_address_generation
     mnemonic = "wood word work wood word work wood word work wood word work"
     master_key = DbchainClient::Key.mnemonic_to_master_key(mnemonic)
     key_pair = DbchainClient::Key.master_key_to_cosmos_key_pair(master_key)
 
+    # test the 2 different ways of generation public keys produce same result
+    key = DbchainClient::Key.new(key_pair[0])
+    assert_equal key.public_key_hex, key_pair[1]
+
     assert_equal DbchainClient::Key.public_key_to_address(key_pair[1]),
       "cosmos1vtajdmhsg965txkp2jv4txfngqpfc4lgyzrg4n"
-
   end
 end
