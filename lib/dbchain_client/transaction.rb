@@ -65,14 +65,15 @@ module DbchainClient
 
     def make_sign_message(tx, messages)
       account = get_account
-      {
+      sign_obj = {
         account_number: account["account_number"],
         chain_id:       @chain_id,
         fee:            tx[:fee],
         memo:           tx[:memo],
         msgs:           tx[:msg],
         sequence:       account["sequence"]
-      }.to_json
+      }
+      to_deep_sorted_json(sign_obj)
     end
 
     def get_account
@@ -95,5 +96,19 @@ module DbchainClient
       res = http.request(req)
       res.body
     end
+
+    def to_deep_sorted_json(obj)
+      if obj.instance_of?(Array)
+        return '[' + obj.map{|o|to_deep_sorted_json(o)}.join(',') + ']'
+      end
+
+      if obj.instance_of?(Hash)
+        keys = obj.keys.sort
+        return '{' + keys.map{|k| JSON.generate(k) + ':' + to_deep_sorted_json(obj[k])}.join(',') + '}'
+      end
+
+      JSON.generate(obj)
+    end
+
   end
 end
