@@ -18,6 +18,12 @@ module DbchainClient
         [key.priv, key.pub]
       end
 
+      def generate_private_key
+        mnemonic = generate_mnemonic
+        master_key = mnemonic_to_master_key(mnemonic)
+        master_key_to_cosmos_key_pair(master_key)[0]
+      end
+
       def public_key_to_address(pub_key)
         hash160 = Bitcoin.hash160(pub_key)
         words = Bitcoin::Bech32.convert_bits(hash160.htb.unpack("C*"), from_bits: 8, to_bits: 5, pad: true)
