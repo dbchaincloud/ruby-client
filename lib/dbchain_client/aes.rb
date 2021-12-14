@@ -33,7 +33,7 @@ module DbchainClient
     private
 
     def prefix_iv(iv, encrypted)
-      iv + "_" + encrypted
+      iv + encrypted
     end
 
     def generate_iv
@@ -42,7 +42,7 @@ module DbchainClient
  
     def extract_iv_and_encrypted(iv_encrypted)
       iv = iv_encrypted[0..15]
-      encrypted = iv_encrypted[17..-1]
+      encrypted = iv_encrypted[16..-1]
       [iv, encrypted]
     end
   end
