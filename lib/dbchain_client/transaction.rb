@@ -33,13 +33,13 @@ module DbchainClient
  
     private
 
-    def sign_and_broadcast(messages)
+    def sign_and_broadcast(messages, gas: '99999999', memo: '')
       tx = {
         fee: {
           amount: [],
-          gas:    '99999999'
+          gas:    gas
         },
-        memo: '',
+        memo: memo,
         msg: messages
       }
 
