@@ -12,26 +12,7 @@ module DbchainClient
       @from_address = @private_key.public_key.address
       @message_generator = DbchainClient::MessageGenerator.new(@from_address)
     end
-  
-    def send_token(to_address, amount)
-      message = @message_generator.run('MsgSend',
-        to_address: to_address,
-        amount: [{denom: 'dbctoken', amount: amount.to_string}]
-      )
-      sign_and_broadcast([message])
-    end
-
-    def insert_row(app_code, table_name, fields)
-      fields_str = Base64.strict_encode64(fields.to_json)
-      message = @message_generator.run('InsertRow',
-        app_code: app_code,
-        table_name: table_name,
-        fields: fields_str
-      )
-      sign_and_broadcast([message])
-    end
  
-    private
 
     def sign_and_broadcast(messages, gas: '99999999', memo: '')
       tx = {
@@ -62,6 +43,8 @@ module DbchainClient
       response = rest_post("/txs", broadcastBody)
       response#.data.txhash
     end
+
+    private
 
     def make_sign_message(tx, messages)
       account = get_account
@@ -109,6 +92,5 @@ module DbchainClient
 
       JSON.generate(obj)
     end
-
   end
 end
