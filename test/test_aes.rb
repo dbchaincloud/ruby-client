@@ -1,5 +1,5 @@
 require 'minitest/autorun'
-require_relative '../lib/dbchain_client/aes'
+require_relative '../lib/dbchain_client'
 
 class KeyTest < Minitest::Test
   def test_encrpt_decrypt

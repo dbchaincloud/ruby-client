@@ -8,4 +8,5 @@ module DbchainClient
   autoload :RestLib,          "dbchain_client/rest_lib"
   autoload :Transaction,      "dbchain_client/transaction"
   autoload :Writer,           "dbchain_client/writer"
+  autoload :AESCrypt,         "dbchain_client/aes"
 end

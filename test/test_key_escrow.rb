@@ -1,5 +1,5 @@
 require 'minitest/autorun'
-require_relative '../lib/dbchain_client/key_escrow'
+require_relative '../lib/dbchain_client'
 
 class KeyTest < Minitest::Test
   def test_key_escrow_features
