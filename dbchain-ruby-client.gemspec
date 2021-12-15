@@ -6,6 +6,6 @@ Gem::Specification.new do |s|
   s.authors     = ["Ethan Zhang"]
   s.email       = 'yzhang.wa@gmail.com'
   s.files       = Dir['lib/**/*']
-  s.homepage    = 'https://rubygems.org/gems/dbchain_client'
+  s.homepage    = 'https://github.com/dbchaincloud/ruby-client'
   s.license     = 'MIT'
 end
