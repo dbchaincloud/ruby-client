@@ -16,6 +16,10 @@ module DbchainClient
       @public_key.serialize.unpack('H*')[0]
     end
 
+    def to_raw
+      @public_key.serialize
+    end
+
     def to_s
       public_key_hex
     end
