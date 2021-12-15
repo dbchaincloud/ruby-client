@@ -1,27 +1,43 @@
 GEM
   remote: https://rubygems.org/
   specs:
+    base58 (0.2.3)
+    base64 (0.1.1)
     bitcoin-ruby (0.0.20)
       eventmachine
       ffi
       scrypt
     bitcoin-secp256k1 (0.5.2)
       ffi (>= 1.9.25)
+    digest (3.0.0)
     eventmachine (1.2.7)
     ffi (1.15.4)
     ffi-compiler (1.0.1)
       ffi (>= 1.0.0)
       rake
+    ipaddr (1.2.3)
+    json (2.6.1)
+    openssl (2.2.1)
+      ipaddr
     rake (13.0.6)
     scrypt (3.0.7)
       ffi-compiler (>= 1.0, < 2.0)
+    securerandom (0.1.1)
+    singleton (0.1.1)
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
+  base58
+  base64
   bitcoin-ruby (~> 0.0.20)
   bitcoin-secp256k1 (~> 0.5.2)
+  digest
+  json
+  openssl
+  securerandom
+  singleton
 
 BUNDLED WITH
-   2.1.4
+   2.2.22

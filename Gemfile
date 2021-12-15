@@ -9,3 +9,11 @@ git_source(:github) {|repo_name| "https://github.com/#{repo_name}" }
 gem "bitcoin-secp256k1", "~> 0.5.2"
 
 gem "bitcoin-ruby", "~> 0.0.20"
+
+gem 'json'
+gem 'digest'
+gem 'openssl'
+gem 'singleton'
+gem 'securerandom'
+gem 'base58'
+gem 'base64'
