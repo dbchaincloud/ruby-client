@@ -12,20 +12,30 @@ module DbchainClient
     end
   
     def send_token(to_address, amount)
-      message = @message_generator.run('MsgSend',
+      message = generate_message('MsgSend',
         to_address: to_address,
         amount: [{denom: 'dbctoken', amount: amount.to_string}]
       )
-      @transaction.sign_and_broadcast([message])
+      sign_and_broadcast([message])
     end
 
     def insert_row(app_code, table_name, fields)
       fields_str = Base64.strict_encode64(fields.to_json)
-      message = @message_generator.run('InsertRow',
+      message = generate_message('InsertRow',
         app_code: app_code,
         table_name: table_name,
         fields: fields_str
       )
+      sign_and_broadcast([message])
+    end
+
+    private
+
+    def generate_message(message_type, message_data)
+      @message_generator.run(message_type, message_data)
+    end
+
+    def sign_and_broadcast(messages)
       @transaction.sign_and_broadcast([message])
     end
   end
