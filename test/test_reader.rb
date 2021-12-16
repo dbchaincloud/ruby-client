@@ -10,7 +10,7 @@ class ReaderTest < Minitest::Test
     text = "1639593186922"
     private_key = DbchainClient::PrivateKey.new(key_pair[0])
     reader = DbchainClient::Reader.new(nil, private_key)
-    access_code = reader.access_code(text)
+    access_code = reader.generate_access_code(text)
 
     assert_equal access_code, "qFPJuD5At5Gq13JGx74UUSDCxVwG9XkVXjvhnUWoquv8:1639593186922:nbGmtFATrC44tzWxVnia7zBXDcXviy8CzZwWCEShU6gDtTxNUpsDoa3XjA5UQc38rFL4zC2N1fG8A5Ea2W71Zsn"
   end

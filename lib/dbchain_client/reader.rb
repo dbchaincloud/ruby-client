@@ -16,7 +16,7 @@ module DbchainClient
       @from_address = address || @public_key.address
     end
 
-    def access_code(time=nil)
+    def generate_access_code(time=nil)
       encoded_public_key = Base58.binary_to_base58(@public_key.to_raw, :bitcoin)
       time ||= (Time.now.to_f * 1000).to_i.to_s
       signature = @private_key.sign(time)
