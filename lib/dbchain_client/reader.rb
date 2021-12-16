@@ -1,5 +1,5 @@
 require 'json'
-require 'base58'
+require 'base58-alphabets'
 
 module DbchainClient
   class Reader
@@ -26,10 +26,10 @@ module DbchainClient
     end
 
     def generate_access_code(time=nil)
-      encoded_public_key = Base58.binary_to_base58(@public_key.to_raw, :bitcoin)
+      encoded_public_key = Base58.encode_bin(@public_key.to_raw)
       time ||= (Time.now.to_f * 1000).to_i.to_s
       signature = @private_key.sign(time)
-      encoded_signature = Base58.binary_to_base58(signature.compact, :bitcoin)
+      encoded_signature = Base58.encode_bin(signature.compact)
       "#{encoded_public_key}:#{time}:#{encoded_signature}"
     end
 
