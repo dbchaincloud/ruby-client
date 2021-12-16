@@ -36,7 +36,7 @@ module DbchainClient
     end
 
     def sign_and_broadcast(messages)
-      @transaction.sign_and_broadcast([message])
+      @transaction.sign_and_broadcast(messages)
     end
   end
 end
