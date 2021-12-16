@@ -25,6 +25,15 @@ module DbchainClient
       return h['result']
     end
 
+    def querier(app_code, query_hash)
+      query = query_hash.to_json
+      query = Base58.encode_bin(query)
+      uri = uri_builder("querier", app_code, query)
+      response = @rest_lib.rest_get(uri)
+      h = JSON.parse(response.body)
+      return h['result']
+    end
+
     def generate_access_code(time=nil)
       encoded_public_key = Base58.encode_bin(@public_key.to_raw)
       time ||= (Time.now.to_f * 1000).to_i.to_s

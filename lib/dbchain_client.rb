@@ -8,6 +8,7 @@ module DbchainClient
   autoload :Transaction,      "dbchain_client/transaction"
   autoload :Writer,           "dbchain_client/writer"
   autoload :Reader,           "dbchain_client/reader"
+  autoload :Querier,          "dbchain_client/querier"
   autoload :KeyEscrow,        "dbchain_client/key_escrow"
   autoload :AESCrypt,         "dbchain_client/aes"
 end
