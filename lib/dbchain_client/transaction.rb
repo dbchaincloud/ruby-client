@@ -25,7 +25,7 @@ module DbchainClient
       sign_message = make_sign_message(tx, messages)
       signature = @private_key.sign(sign_message)
       signed_tx = {
-        signature: Base64.strict_encode64([signature].pack("H*")),
+        signature: Base64.strict_encode64(signature.compact),
         pub_key:   {
             type:  'tendermint/PubKeySecp256k1',
             value: Base64.strict_encode64([@private_key.public_key.public_key_hex].pack("H*"))

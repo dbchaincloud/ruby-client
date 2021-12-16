@@ -29,8 +29,7 @@ module DbchainClient
     end
 
     def verify(message, signature)
-      compact_sig = Secp256k1::Utils.decode_hex(signature)
-      raw_sig = @public_key.ecdsa_deserialize_compact(compact_sig)
+      raw_sig = signature.raw
       @public_key.ecdsa_verify(message, raw_sig)
     end
   end
@@ -47,8 +46,27 @@ module DbchainClient
 
     def sign(message)
       raw_sig = @private_key.ecdsa_sign(message)
-      compact_sig = @private_key.ecdsa_serialize_compact(raw_sig)
-      Secp256k1::Utils.encode_hex(compact_sig)
+      Signature.new(raw_sig)
+    end
+  end
+
+  class Signature
+    include Secp256k1::ECDSA
+
+    def initialize(raw_sig)
+      @raw_sig = raw_sig
+    end
+
+    def raw
+      @raw_sig
+    end
+
+    def compact
+      ecdsa_serialize_compact(@raw_sig)
+    end
+
+    def to_hex
+      compact.unpack("H*")
     end
   end
 end
